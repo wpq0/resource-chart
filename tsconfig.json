@@ -1,0 +1,24 @@
+{
+  "compileOnSave": false,
+  "buildOnSave": false,
+  "compilerOptions": {
+    "target": "es6",
+    "jsx": "react",
+    "module": "es6",
+    "moduleResolution": "Node",
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": false,
+    "strictNullChecks": true
+  },
+  "include": [
+    "./globals.d.ts",
+    "./src/**/*.ts",
+    "./src/**/*..tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

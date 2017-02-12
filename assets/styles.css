@@ -1,0 +1,21 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+.chart {
+  min-height: 3200px;
+}
+.proj__name, .emp__name {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+.proj__name {
+  font-size: 11px;
+  text-anchor: start;
+}
+.proj, .emp {
+  cursor: pointer;
+}
+.emp__name {
+  font-size: 11px;
+  text-anchor: end;
+}
