@@ -25,21 +25,11 @@ export function projects(state:Array<Project> = [], action) {
   }
 }
 
-export function layout(state = {}, action) {
-  switch(action.type) {
-    case actionTypes.AllocationLayout:
-      return action.layout;
-    default:
-      return state;
-  }
-}
-
 export function selectedEmployee(state = null, action) {
   switch(action.type) {
     case actionTypes.EmployeeSelected:
-      const key = `emp.${action.employeeId}`;
-      return key === state ? null : key;
-    case actionTypes.EmployeeDeSelected:
+      return state === action.employeeId ? null : action.employeeId;
+    case actionTypes.ProjectSelected:
       return null;
     default:
       return state;
@@ -49,10 +39,36 @@ export function selectedEmployee(state = null, action) {
 export function selectedProject(state = null, action) {
   switch(action.type) {
     case actionTypes.ProjectSelected:
-      const key = `proj.${action.projectId}`;
-      return key === state ? null : key;
-    case actionTypes.ProjectDeSelected:
+      return state === action.projectId ? null : action.projectId;
+    case actionTypes.EmployeeSelected:
       return null;
+    default:
+      return state;
+  }
+}
+
+export function layout(state = {}, action) {
+  switch(action.type) {
+    case actionTypes.AllocationLayout:
+      return action.layout;
+    default:
+      return state;
+  }
+}
+
+export function projects2Employees(state = {}, action) {
+  switch (action.type) {
+    case actionTypes.ProjectsToEmployeesMap:
+      return action.map;
+    default:
+      return state;
+  }
+}
+
+export function employees2Projects(state = {}, action) {
+  switch (action.type) {
+    case actionTypes.EmployeesToProjectsMap:
+      return action.map;
     default:
       return state;
   }

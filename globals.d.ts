@@ -1,14 +1,24 @@
 declare type State = {
-  employees :{ [id:string]: Employee },
-  projects: { [id:string]: Project },
-  customers: { [id:string]: Customer },
+  employees: { [id: string]: Employee },
+  projects: { [id: string]: Project },
+  customers: { [id: string]: Customer },
   layout: AllocationsLayout,
-  filterGroup: FilterGroupSelection
+  selectedEmployee: string,
+  selectedProject: string,
+  employees2Projects: IdMap,
+  projects2Employees: IdMap,
+  filterGroup: FilterGroupSelection,
 }
+
+declare type IdMap = {
+  [key: string]: {
+    [key: string]: any
+  }
+};
 
 declare type AllocationsLayout = {
   employees: Bar<Employee>[],
-  employeeProjects: CurveArea<ProjectEmployee & { projectId:string }>[],
+  employeeProjects: CurveArea<ProjectEmployee & { projectId: string }>[],
   projects: Bar<Project>[],
 } & ChartDimensions;
 
@@ -21,19 +31,19 @@ declare type CurveArea<T> = {
 
 declare type Bar<T> = {
   key: string,
-  x: number, 
-  y: number, 
-  width: number, 
-  height: number, 
+  x: number,
+  y: number,
+  width: number,
+  height: number,
   fill: string,
   data: T
 };
 
 declare type Margin = {
-  top:number, 
-  right:number, 
-  bottom:number, 
-  left:number
+  top: number,
+  right: number,
+  bottom: number,
+  left: number
 }
 
 declare type ChartDimensions = {
@@ -46,13 +56,6 @@ declare type ChartDimensions = {
 declare type Employee = {
   id: string,
   name: string,
-  fullName: string,
-  orgName: string,
-  level: string,
-  expertise: string,
-  position: string,
-  office: string,
-  managerName: string,
   totalAllocation: number,
   projects: Array<EmployeeProject>
 }
@@ -60,24 +63,15 @@ declare type Employee = {
 declare type EmployeeProject = {
   id: string,
   name: string,
-  role: string,
   allocation: number,
-  billable: boolean
 }
 
 declare type Project = {
   id: string,
   name: string,
-  managerName: string,
-  type: string,
-  billable: boolean,
-  customerId: string,
-  customerName: string,
-  orgName: string,
   totalAllocation: number,
   totalMembers: number,
   totalAllocatedMembers: number,
-  totalBillabledMembers: number,
   members: Array<ProjectEmployee>
 }
 
@@ -110,7 +104,7 @@ declare type FilterGroup = {
 
 declare type FilterGroupSelection = {
   title: string,
-  url:string,
+  url: string,
 }
 
-type Pair = keyof Array<number> & { data:{} };
+type Pair = keyof Array<number> & { data: {} };

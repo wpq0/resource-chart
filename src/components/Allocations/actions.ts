@@ -21,71 +21,73 @@ export const actionTypes = {
   FetchProjectsDone: 'FETCH_PROJECTS_DONE',
   FetchProjectsFailed: 'FETCH_PROJECTS_FAILED',
   FetchProjectsCanceled: 'FETCH_PROJECTS_CANCELED',
-  AllocationLayout: 'ALLOCATION_LAYOUT',
   ChartResize: 'CHART_RESIZE',
   EmployeeSelected: 'SELECT_EMPLOYEE',
-  EmployeeDeSelected: 'DESELECT_EMPLOYEE',
   ProjectSelected: 'SELECT_PROJECT',
-  ProjectDeSelected: 'DESELECT_PROJECT',
+  AllocationLayout: 'ALLOCATION_LAYOUT',
+  EmployeesToProjectsMap: 'EMPLOYEES_TO_PROJECTS_MAP',
+  ProjectsToEmployeesMap: 'PROJECTS_TO_EMPLOYEES_MAP',
 };
 
-export const chartResize = (size:ClientRect) =>
-  ({ type:actionTypes.ChartResize, ...size });
+export const chartResize = (size: ClientRect) =>
+  ({ type: actionTypes.ChartResize, ...size });
 
-export const selectEmployee = (employeeId) =>
-  ({ type:actionTypes.EmployeeSelected, employeeId });
+export const selectEmployee = (employeeId, employees, employeeProjects, projects) =>
+  ({ type: actionTypes.EmployeeSelected, employeeId, employees, employeeProjects, projects });
 
-export const deselectEmployee = (employeeId) =>
-  ({ type:actionTypes.EmployeeDeSelected });
-
-export const selectProject = (projectId) =>
-  ({ type:actionTypes.ProjectSelected, projectId });
-
-export const deselectProject = (projectId) =>
-  ({ type:actionTypes.ProjectDeSelected });
+export const selectProject = (projectId, employees, employeeProjects, projects) =>
+  ({ type: actionTypes.ProjectSelected, projectId, employees, employeeProjects, projects });
 
 export const fetchEmployeesDone = (data: Employee[]) =>
-  ({ type:actionTypes.FetchEmployeesDone, employees: data })
+  ({ type: actionTypes.FetchEmployeesDone, employees: data })
 
-export const fetchEmployees = (condition) => 
+export const fetchEmployees = (condition) =>
   ({ type: actionTypes.FetchEmployees });
 
-export const fetchEmployeesFailed = (error) => 
+export const fetchEmployeesFailed = (error) =>
   ({ type: actionTypes.FetchEmployeesFailed, error })
 
 export const fetchEmployeesEpic = (action$: ActionsObservable<Action>) =>
   action$
     .ofType(actionTypes.FetchEmployees)
-    .switchMap(()=>
+    .switchMap(() =>
       ajax
         .getJSON<Employee[]>('/data/employeeAllocations.json')
-        .map(data=>fetchEmployeesDone(data))
+        .map(data => fetchEmployeesDone(data))
         .catch(error => Observable.of(fetchEmployeesFailed(error)))
         .takeUntil(action$.ofType(actionTypes.FetchEmployeesCanceled))
     );
 
 export const fetchProjectsDone = (data: Project[]) =>
-  ({ type:actionTypes.FetchProjectsDone, projects: data })
+  ({ type: actionTypes.FetchProjectsDone, projects: data })
 
-export const fetchProjects = (condition) => 
+export const fetchProjects = (condition) =>
   ({ type: actionTypes.FetchProjects });
 
-export const fetchProjectsFailed = (error) => 
+export const fetchProjectsFailed = (error) =>
   ({ type: actionTypes.FetchProjectsFailed, error });
 
 export const fetchProjectsEpic = (action$: ActionsObservable<Action>) =>
   action$
     .ofType(actionTypes.FetchProjects)
-    .switchMap(()=>
+    .switchMap(() =>
       ajax
         .getJSON<Project[]>('/data/projectAllocations.json')
-        .map(data=>fetchProjectsDone(data))
+        .map(data => fetchProjectsDone(data))
         .catch(error => Observable.of(fetchProjectsFailed(error)))
         .takeUntil(action$.ofType(actionTypes.FetchProjectsCanceled))
     );
 
 export const allocationLayout = (layout) => ({
-  type:actionTypes.AllocationLayout, layout
+  type: actionTypes.AllocationLayout, layout
+});
+
+export const employees2ProjectsMap = (map) => ({
+  type: actionTypes.EmployeesToProjectsMap, map
+});
+
+export const projects2EmployeesMap = (map) => ({
+  type: actionTypes.ProjectsToEmployeesMap, map
 });
 
 export default {
@@ -93,7 +95,5 @@ export default {
   fetchEmployees,
   chartResize,
   selectEmployee,
-  deselectEmployee,
   selectProject,
-  deselectProject
 };

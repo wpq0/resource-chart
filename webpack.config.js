@@ -79,7 +79,7 @@ module.exports = {
     ],
     devServer: {
         compress: isProd,
-        port: 9090,
+        port: 9000,
         historyApiFallback: {
             index:'index.html'
         },
